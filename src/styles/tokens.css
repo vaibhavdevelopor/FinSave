@@ -1,0 +1,9 @@
+:root {
+  --color-bg-dark: #0f0f1a;
+  --color-bg-light: #ffffff;
+  --color-primary: #38bdf8;
+  --color-accent: #ff4ecd;
+  --color-success: #4ade80;
+  --color-warning: #facc15;
+  --color-danger: #ef4444;
+}

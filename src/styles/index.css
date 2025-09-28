@@ -1,0 +1,119 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ========= AURORA BACKGROUND ========= */
+html, body, #root { height: 100%; }
+
+body {
+  background-color: #0d1117; /* fallback */
+  background-image:
+    radial-gradient(at 20% 20%, hsla(212, 90%, 50%, 0.30) 0px, transparent 50%),
+    radial-gradient(at 80% 80%, hsla(289, 90%, 50%, 0.30) 0px, transparent 50%);
+  background-repeat: no-repeat;
+  background-size: cover;
+  min-height: 100vh;
+  color: #e5e7eb;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection { background: rgba(139, 92, 246, .35); }
+
+/* ========= GLASS HELPERS ========= */
+.main-panel {
+  background-color: rgba(20, 20, 30, 0.55);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 24px;
+  box-shadow: 0 20px 60px rgba(0,0,0,.45);
+}
+
+.glass-pill {
+  background-color: rgba(255,255,255,.06);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,.10);
+  border-radius: 18px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.06), 0 10px 24px rgba(0,0,0,.35);
+}
+
+.search-glass {
+  background-color: rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.14);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-radius: 14px;
+  box-shadow: 0 10px 26px rgba(0,0,0,.35);
+}
+
+/* ========= GLASS CARD ========= */
+.glass-card {
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border-radius: 20px;
+  padding: 1.5rem;
+  border: 1px solid rgba(255,255,255,.08);
+  background-color: rgba(255,255,255,.05);
+}
+
+/* ========= COLOR GLOW UTILITIES ========= */
+.glow-green  { box-shadow: 0 0 25px rgba(34,197,94,.35); border: 1px solid rgba(34,197,94,.4); }
+.glow-blue   { box-shadow: 0 0 25px rgba(59,130,246,.35); border: 1px solid rgba(59,130,246,.4); }
+.glow-orange { box-shadow: 0 0 25px rgba(249,115,22,.35); border: 1px solid rgba(249,115,22,.4); }
+.glow-pink   { box-shadow: 0 0 25px rgba(236,72,153,.35); border: 1px solid rgba(236,72,153,.4); }
+.glow-purple { box-shadow: 0 0 25px rgba(168,85,247,.35); border: 1px solid rgba(168,85,247,.4); }
+.glow-cyan   { box-shadow: 0 0 25px rgba(34,211,238,.35); border: 1px solid rgba(34,211,238,.4); }
+
+/* ========= TEXT & BUTTONS ========= */
+.neon-text {
+  background: linear-gradient(90deg, #ec4899, #8b5cf6);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-weight: 800;
+}
+
+.btn-neon {
+  background: linear-gradient(90deg, #ec4899, #8b5cf6);
+  color: white;
+  border-radius: 12px;
+  font-weight: 700;
+  padding: 10px 16px;
+  box-shadow: 0 10px 28px rgba(139,92,246,.35);
+  transition: transform .2s ease, box-shadow .2s ease, filter .2s ease;
+}
+.btn-neon:hover {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 16px 40px rgba(139,92,246,.55);
+  filter: saturate(1.05);
+}
+
+/* ========= SIDEBAR ACTIVE ITEM ========= */
+.sidebar-link { position: relative; }
+.sidebar-link.active {
+  color: white !important;
+  background: linear-gradient(90deg, rgba(34,211,238,.10), rgba(167,139,250,.10));
+  border: 1px solid rgba(255,255,255,.08);
+}
+.sidebar-link.active::before {
+  content:"";
+  position:absolute; left:-14px; top:50%;
+  transform:translateY(-50%);
+  width:4px; height:28px; border-radius:999px;
+  background: linear-gradient(180deg,#22d3ee,#a78bfa);
+}
+.sidebar-link.active::after {
+  content:"";
+  position:absolute; inset:-8px; border-radius:12px;
+  background: linear-gradient(90deg,#22d3ee,#a78bfa);
+  filter: blur(18px); opacity:.45; z-index:-1;
+}
+
+/* ========= CUSTOM SCROLLBAR ========= */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #8b5cf6, #ec4899);
+  border-radius: 10px;
+}
