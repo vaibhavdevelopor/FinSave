@@ -1,16 +1,31 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import { collection, getDocs, query, orderBy, limit } from "firebase/firestore";
+import { db } from "../firebase"; // ✅ Firestore instance
 
 export default function Dashboard() {
   const [topOffers, setTopOffers] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get("http://localhost:5001/top-offers").then((res) => {
-      setTopOffers(res.data || []);
-    });
+    const fetchTopOffers = async () => {
+      try {
+        // ✅ Query Firestore for latest offers
+        const q = query(
+          collection(db, "offers"),
+          orderBy("createdAt", "desc"), // needs createdAt as Firestore Timestamp
+          limit(6) // show top 6
+        );
+        const snapshot = await getDocs(q);
+        const list = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        setTopOffers(list);
+      } catch (err) {
+        console.error("Error fetching top offers:", err);
+      }
+    };
+
+    fetchTopOffers();
   }, []);
 
   return (

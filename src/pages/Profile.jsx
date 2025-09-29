@@ -1,8 +1,25 @@
 import { useAuth } from "../context/AuthContext";
 import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../firebase"; // ✅ Firestore instance
 
 export default function Profile() {
   const { user, logout } = useAuth();
+  const [offersCount, setOffersCount] = useState(0);
+
+  // ✅ Fetch total offers count from Firestore
+  useEffect(() => {
+    const fetchOffersCount = async () => {
+      try {
+        const snapshot = await getDocs(collection(db, "offers"));
+        setOffersCount(snapshot.size);
+      } catch (err) {
+        console.error("Error fetching offers count:", err);
+      }
+    };
+    fetchOffersCount();
+  }, []);
 
   return (
     <div className="max-w-6xl mx-auto px-6 py-8 text-white">
@@ -21,7 +38,9 @@ export default function Profile() {
         <h2 className="text-2xl font-bold bg-gradient-to-r from-pink-500 to-purple-500 bg-clip-text text-transparent mb-2">
           My Profile
         </h2>
-        <p className="text-gray-300">{user?.email || "Anonymous User"}</p>
+        <p className="text-gray-300">
+          {user?.email || "Anonymous User"}
+        </p>
 
         {/* Quick Stats */}
         <div className="grid grid-cols-3 gap-4 mt-6">
@@ -36,7 +55,7 @@ export default function Profile() {
             className="glass p-4 rounded-xl shadow-md shadow-blue-500/30 border border-blue-500/30"
             whileHover={{ scale: 1.05 }}
           >
-            <p className="text-xl font-bold text-blue-400">87</p>
+            <p className="text-xl font-bold text-blue-400">{offersCount}</p>
             <p className="text-sm text-gray-400">Offers</p>
           </motion.div>
           <motion.div
@@ -49,14 +68,16 @@ export default function Profile() {
         </div>
 
         {/* Logout Button */}
-        <motion.button
-          onClick={logout}
-          className="mt-8 w-full py-3 font-semibold rounded-lg bg-gradient-to-r from-pink-500 to-purple-500 text-white shadow-lg shadow-pink-500/30 transition hover:opacity-90"
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-        >
-          Logout
-        </motion.button>
+        {user && (
+          <motion.button
+            onClick={logout}
+            className="mt-8 w-full py-3 font-semibold rounded-lg bg-gradient-to-r from-pink-500 to-purple-500 text-white shadow-lg shadow-pink-500/30 transition hover:opacity-90"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            Logout
+          </motion.button>
+        )}
       </motion.div>
     </div>
   );

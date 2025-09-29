@@ -28,7 +28,7 @@ export default function Sidebar() {
       {/* Logo */}
       <div className="px-6 py-6">
         <div className="flex items-center gap-2 mb-10">
-          <img src="/src/assets/logo.png" alt="logo" className="w-8 h-8" />
+          <img src="/logo.png" alt="logo" className="w-8 h-8" />
           <h1 className="text-xl font-bold">FinSave</h1>
         </div>
 
