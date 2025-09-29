@@ -3,7 +3,7 @@ import { Routes, Route, Navigate, Outlet } from "react-router-dom";
 import { AuthProvider, useAuth } from "./context/AuthContext";
 
 // Layout & Pages
-import Layout from "./components/Layout";
+import Layout from "./components/layout";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import Discover from "./pages/Discover";
