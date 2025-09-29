@@ -1,12 +1,30 @@
-# React + Vite
+# 💸 FinSave – Smart Cashback & Offers Tracker  
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+FinSave is a modern web app that helps users discover the **latest cashback offers, discounts, and deals** across popular platforms.  
+Built with **React, Firebase, and TailwindCSS**, it’s fast, responsive, and recruiter-ready 🚀.  
 
-Currently, two official plugins are available:
+🌐 **Live Demo:** 👉 [FinSave on Render](https://finsave-dalp.onrender.com)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## Expanding the ESLint configuration
+## ✨ Features  
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+✅ **Google Sign-In Authentication**  
+✅ **Dashboard with Quick Stats**  
+✅ **Discover Offers** – browse & search live offers  
+✅ **Profile Page** – user info + stats  
+✅ **Real-time Firestore Database**  
+✅ **Smooth UI with Framer Motion Animations**  
+✅ **Fully Responsive Design (Mobile + Desktop)**  
+
+---
+
+## 🛠️ Tech Stack  
+
+- **Frontend:** React + Vite + TailwindCSS + Framer Motion  
+- **Auth & Database:** Firebase (Auth + Firestore)  
+- **Routing:** React Router  
+- **Deployment:** Render  
+
+---
+
