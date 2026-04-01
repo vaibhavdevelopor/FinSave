@@ -1,21 +1,35 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { useSearch } from "../context/SearchContext"; 
+import { Search as SearchIcon, ArrowUpRight, Filter } from "lucide-react";
+import { useSearch } from "../context/SearchContext";
 import { collection, getDocs } from "firebase/firestore";
-import { db } from "../firebase"; // ✅ make sure this exports your Firestore instance
+import { db } from "../firebase";
+
+function getOfferDate(offer) {
+  const rawDate =
+    offer.createdAt?.toDate?.() ||
+    offer.updatedAt?.toDate?.() ||
+    offer.scrapedAt ||
+    offer.lastSeenAt;
+
+  if (!rawDate) {
+    return null;
+  }
+
+  const parsedDate = rawDate instanceof Date ? rawDate : new Date(rawDate);
+  return Number.isNaN(parsedDate.getTime()) ? null : parsedDate;
+}
 
 export default function Discover() {
   const [offers, setOffers] = useState([]);
   const [loading, setLoading] = useState(true);
-  const { searchTerm } = useSearch(); 
+  const { searchTerm } = useSearch();
 
-  // ✅ Fetch offers directly from Firestore
   useEffect(() => {
     const fetchOffers = async () => {
       try {
         const snapshot = await getDocs(collection(db, "offers"));
-        const list = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-        console.log("Fetched offers:", list); // 👀 Debug
+        const list = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
         setOffers(list);
       } catch (err) {
         console.error("Error fetching offers:", err);
@@ -27,50 +41,102 @@ export default function Discover() {
     fetchOffers();
   }, []);
 
-  // ✅ Filter offers based on global search term
   const filteredOffers = offers.filter((offer) => {
     const term = searchTerm.toLowerCase();
     return (
       offer.platform?.toLowerCase().includes(term) ||
-      offer.title?.toLowerCase().includes(term)
+      offer.title?.toLowerCase().includes(term) ||
+      offer.sourceName?.toLowerCase().includes(term)
     );
   });
 
   return (
-    <div className="max-w-6xl mx-auto px-6 py-8 space-y-8">
-      <h1 className="text-3xl font-extrabold">
-        Discover Cashback{" "}
-        <span className="bg-gradient-to-r from-pink-500 to-purple-500 bg-clip-text text-transparent">
-          Offers
-        </span>
-      </h1>
+    <div className="space-y-8 pb-6">
+      <section className="theme-panel rounded-[34px] p-8 sm:p-10">
+        <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+          <div>
+            <p className="text-[11px] uppercase tracking-[0.32em] theme-muted">
+              Discover mode
+            </p>
+            <h1 className="mt-3 text-4xl font-black leading-none sm:text-5xl">
+              Browse live offers with less noise.
+            </h1>
+            <p className="mt-4 max-w-2xl text-base leading-7 theme-muted">
+              Every card below is designed to surface the reward first, the
+              source second, and the next action immediately.
+            </p>
+          </div>
+
+          <div className="flex flex-wrap gap-3">
+            <div className="theme-input inline-flex items-center gap-2 rounded-2xl px-4 py-3 text-sm">
+              <Filter className="h-4 w-4 text-orange-300" />
+              {filteredOffers.length} visible offers
+            </div>
+            <div className="theme-input inline-flex items-center gap-2 rounded-2xl px-4 py-3 text-sm">
+              <SearchIcon className="h-4 w-4 text-orange-300" />
+              Search synced from top bar
+            </div>
+          </div>
+        </div>
+      </section>
 
       {loading ? (
-        <p className="text-gray-400">Loading offers...</p>
+        <p className="theme-muted">Loading offers...</p>
       ) : filteredOffers.length === 0 ? (
-        <p className="text-gray-400">No offers found</p>
+        <div className="theme-panel rounded-[30px] p-10 text-center">
+          <h2 className="text-2xl font-black">No offers found</h2>
+          <p className="mt-3 theme-muted">
+            Try a broader search term or clear the current query.
+          </p>
+        </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
           {filteredOffers.map((offer, i) => (
             <motion.div
               key={offer.id || i}
-              whileHover={{ scale: 1.03 }}
-              className="rounded-2xl p-6 backdrop-blur-lg border shadow-lg transition 
-                         bg-white/10 border-pink-500 text-pink-400 shadow-pink-500/30"
+              initial={{ opacity: 0, y: 18 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.35, delay: i * 0.03 }}
+              whileHover={{ y: -4 }}
+              className="theme-panel ambient-glow rounded-[30px] p-6"
             >
-              <h3 className="text-lg font-bold text-white">{offer.platform}</h3>
-              <p className="text-gray-300">{offer.title}</p>
-              <p className="text-xs text-gray-500 mt-1">
-                {offer.createdAt?._seconds
-                  ? new Date(offer.createdAt._seconds * 1000).toLocaleString()
-                  : ""}
-              </p>
+              <div className="flex items-start justify-between gap-3">
+                <div>
+                  <p className="text-[11px] uppercase tracking-[0.26em] text-orange-300">
+                    {offer.sourceName || offer.source || "Live source"}
+                  </p>
+                  <h3 className="mt-3 text-2xl font-black">{offer.platform}</h3>
+                </div>
+                <div className="rounded-2xl border border-white/10 bg-white/5 px-3 py-2 text-right">
+                  <p className="text-[10px] uppercase tracking-[0.22em] theme-muted">
+                    Reward
+                  </p>
+                  <p className="mt-1 text-sm font-semibold">
+                    {offer.cashbackText || "Live offer"}
+                  </p>
+                </div>
+              </div>
+
+              <p className="mt-5 text-sm leading-7 theme-muted">{offer.title}</p>
+
+              <div className="mt-6 flex items-center justify-between gap-3 text-xs uppercase tracking-[0.22em] theme-muted">
+                <span>
+                  {getOfferDate(offer)
+                    ? getOfferDate(offer).toLocaleDateString("en-IN", {
+                        day: "numeric",
+                        month: "short",
+                      })
+                    : "Live now"}
+                </span>
+                <span>{offer.category || "Cashback"}</span>
+              </div>
+
               <button
                 onClick={() => window.open(offer.link, "_blank")}
-                className="mt-4 px-4 py-2 rounded-lg text-white font-bold 
-                           bg-gradient-to-r from-pink-500 to-purple-500 hover:opacity-90 transition"
+                className="mt-6 inline-flex items-center gap-2 rounded-2xl bg-gradient-to-r from-orange-400 via-pink-500 to-fuchsia-600 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-orange-500/20 transition hover:scale-[1.01]"
               >
-                View Offer
+                Open offer
+                <ArrowUpRight className="h-4 w-4" />
               </button>
             </motion.div>
           ))}

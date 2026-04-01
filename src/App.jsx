@@ -8,6 +8,7 @@ import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import Discover from "./pages/Discover";
 import Profile from "./pages/Profile";
+import Settings from "./pages/Settings";
 
 // 🔒 Protected route wrapper
 function Protected() {
@@ -39,6 +40,7 @@ export default function App() {
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="discover" element={<Discover />} />
             <Route path="profile" element={<Profile />} />
+            <Route path="settings" element={<Settings />} />
           </Route>
         </Route>
 
