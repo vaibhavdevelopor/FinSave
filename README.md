@@ -72,18 +72,18 @@ The backend includes:
 ```text
 FinSave/
 +-- backend/
-¦   +-- lib/
-¦   +-- scrapers/
-¦   +-- services/
-¦   +-- server.js
-¦   +-- syncOffers.js
+Â¦   +-- lib/
+Â¦   +-- scrapers/
+Â¦   +-- services/
+Â¦   +-- server.js
+Â¦   +-- syncOffers.js
 +-- public/
 +-- src/
-¦   +-- components/
-¦   +-- context/
-¦   +-- pages/
-¦   +-- styles/
-¦   +-- firebase.js
+Â¦   +-- components/
+Â¦   +-- context/
+Â¦   +-- pages/
+Â¦   +-- styles/
+Â¦   +-- firebase.js
 +-- render.yaml
 +-- RENDER_SETUP.md
 ```
@@ -184,15 +184,19 @@ The deployment setup supports:
 
 ### Authentication
 
-<img width="1919" height="825" alt="FinSave auth" src="https://github.com/user-attachments/assets/e64e11c5-8330-4fe7-b19e-a6611577919b" />
+<img width="1919" height="829" alt="image" src="https://github.com/user-attachments/assets/531c6bc6-0ce8-4b3f-9036-f081a52ea13b" />
+
+
 
 ### Dashboard
 
-<img width="1919" height="826" alt="FinSave dashboard" src="https://github.com/user-attachments/assets/5fa51193-c594-4917-8ea0-39e3f2ee9718" />
+<img width="1919" height="827" alt="image" src="https://github.com/user-attachments/assets/c813712a-7190-4768-bc26-196aa3714da9" />
+
 
 ### Discover Offers
 
-<img width="1919" height="827" alt="FinSave discover" src="https://github.com/user-attachments/assets/dab45afc-4d59-452a-af6a-9cc500c551b7" />
+<img width="1919" height="823" alt="image" src="https://github.com/user-attachments/assets/b4077b60-e811-4d74-8868-2cbf9e98cdaa" />
+
 
 ## Resume-Ready Summary
 
