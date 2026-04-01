@@ -57,7 +57,7 @@ export default function Layout() {
         }`}
       >
         <div className="px-4 pt-4 sm:px-6 lg:px-8">
-          <div className="theme-panel-strong ambient-glow rounded-[28px] border px-4 py-4 sm:px-6">
+          <div className="theme-panel-strong ambient-glow relative z-30 rounded-[28px] border px-4 py-4 sm:px-6">
             <Topbar onMenuToggle={() => setSidebarOpen((value) => !value)} />
           </div>
         </div>

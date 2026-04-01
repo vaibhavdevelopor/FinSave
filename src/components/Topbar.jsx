@@ -47,7 +47,7 @@ export default function Topbar({ onMenuToggle }) {
   };
 
   return (
-    <header className="relative flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+    <header className="relative z-40 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
       <div className="flex items-center gap-3">
         <button
           type="button"
@@ -99,7 +99,7 @@ export default function Topbar({ onMenuToggle }) {
           </div>
         </div>
 
-        <div className="relative">
+        <div className="relative z-50">
           <button
             onClick={() => setNotifOpen(!notifOpen)}
             className="theme-hover relative rounded-2xl p-3 transition"
@@ -111,7 +111,7 @@ export default function Topbar({ onMenuToggle }) {
           </button>
 
           {notifOpen && (
-            <div className="theme-panel-strong absolute right-0 mt-3 w-80 rounded-2xl p-4">
+            <div className="theme-panel-strong absolute right-0 top-full z-[60] mt-3 w-80 rounded-2xl p-4">
               <p className="mb-3 text-[10px] uppercase tracking-[0.24em] theme-muted">
                 Fresh signals
               </p>
@@ -143,7 +143,7 @@ export default function Topbar({ onMenuToggle }) {
           )}
         </button>
 
-        <div className="relative">
+        <div className="relative z-50">
           <div
             onClick={() => setMenuOpen(!menuOpen)}
             className="flex h-11 w-11 cursor-pointer items-center justify-center rounded-2xl bg-gradient-to-r from-orange-400 via-pink-500 to-fuchsia-600 font-bold text-white shadow-lg shadow-orange-500/20"
@@ -152,7 +152,7 @@ export default function Topbar({ onMenuToggle }) {
           </div>
 
           {menuOpen && (
-            <div className="theme-panel-strong absolute right-0 mt-3 w-44 rounded-2xl p-2">
+            <div className="theme-panel-strong absolute right-0 top-full z-[60] mt-3 w-44 rounded-2xl p-2">
               <button
                 onClick={() => navigate("/profile")}
                 className="theme-hover w-full rounded-xl px-3 py-2 text-left text-sm"
