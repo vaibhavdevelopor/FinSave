@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Bell, Sun, Moon, Search, Menu, Sparkles } from "lucide-react";
 import { useSearch } from "../context/SearchContext";
+import { useAuth } from "../context/AuthContext";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -8,6 +9,7 @@ const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || "http://localhost:5001";
 
 export default function Topbar({ onMenuToggle }) {
   const { searchTerm, setSearchTerm } = useSearch();
+  const { logout } = useAuth();
   const [notifOpen, setNotifOpen] = useState(false);
   const [dark, setDark] = useState(true);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -35,14 +37,20 @@ export default function Topbar({ onMenuToggle }) {
 
   useEffect(() => {
     if (notifOpen) {
-      axios.get(`${apiBaseUrl}/offers`).then((res) => {
-        setOffers(res.data?.offers || []);
-      });
+      axios
+        .get(`${apiBaseUrl}/offers`)
+        .then((res) => {
+          setOffers(res.data?.offers || []);
+        })
+        .catch((error) => {
+          console.error("Error fetching notifications:", error);
+          setOffers([]);
+        });
     }
   }, [notifOpen]);
 
-  const handleLogout = () => {
-    localStorage.removeItem("authToken");
+  const handleLogout = async () => {
+    await logout();
     navigate("/login");
   };
 
