@@ -2,13 +2,17 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { ArrowRight, ShieldCheck, Zap, Radar, Clock3 } from "lucide-react";
-import { collection, getDocs, query, orderBy } from "firebase/firestore";
+import { collection, getDocs } from "firebase/firestore";
 import { db } from "../firebase";
 
 function getOfferDate(offer) {
   const rawDate =
-    offer.createdAt?.toDate?.() ||
     offer.updatedAt?.toDate?.() ||
+    offer.lastSeenAt ||
+    offer.scrapedAt ||
+    offer.createdAt?.toDate?.() ||
+    offer.updatedAt ||
+    offer.createdAt ||
     offer.scrapedAt ||
     offer.lastSeenAt;
 
@@ -40,18 +44,22 @@ export default function Dashboard() {
   useEffect(() => {
     const fetchDashboardData = async () => {
       try {
-        const q = query(collection(db, "offers"), orderBy("createdAt", "desc"));
-        const snapshot = await getDocs(q);
+        const snapshot = await getDocs(collection(db, "offers"));
         const list = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+        const sortedOffers = [...list].sort((a, b) => {
+          const firstDate = getOfferDate(a)?.getTime() ?? 0;
+          const secondDate = getOfferDate(b)?.getTime() ?? 0;
+          return secondDate - firstDate;
+        });
 
-        setTopOffers(list.slice(0, 6));
+        setTopOffers(sortedOffers.slice(0, 6));
 
-        const latestDate = list
+        const latestDate = sortedOffers
           .map(getOfferDate)
           .filter(Boolean)
           .sort((a, b) => b - a)[0];
 
-        const cashbackValues = list
+        const cashbackValues = sortedOffers
           .map((offer) => Number(offer.cashbackValue))
           .filter((value) => Number.isFinite(value) && value > 0);
 

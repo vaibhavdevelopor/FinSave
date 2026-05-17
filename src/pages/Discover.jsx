@@ -7,8 +7,12 @@ import { db } from "../firebase";
 
 function getOfferDate(offer) {
   const rawDate =
-    offer.createdAt?.toDate?.() ||
     offer.updatedAt?.toDate?.() ||
+    offer.lastSeenAt ||
+    offer.scrapedAt ||
+    offer.createdAt?.toDate?.() ||
+    offer.updatedAt ||
+    offer.createdAt ||
     offer.scrapedAt ||
     offer.lastSeenAt;
 
@@ -41,14 +45,20 @@ export default function Discover() {
     fetchOffers();
   }, []);
 
-  const filteredOffers = offers.filter((offer) => {
-    const term = searchTerm.toLowerCase();
-    return (
-      offer.platform?.toLowerCase().includes(term) ||
-      offer.title?.toLowerCase().includes(term) ||
-      offer.sourceName?.toLowerCase().includes(term)
-    );
-  });
+  const filteredOffers = offers
+    .filter((offer) => {
+      const term = searchTerm.toLowerCase();
+      return (
+        offer.platform?.toLowerCase().includes(term) ||
+        offer.title?.toLowerCase().includes(term) ||
+        offer.sourceName?.toLowerCase().includes(term)
+      );
+    })
+    .sort((a, b) => {
+      const firstDate = getOfferDate(a)?.getTime() ?? 0;
+      const secondDate = getOfferDate(b)?.getTime() ?? 0;
+      return secondDate - firstDate;
+    });
 
   return (
     <div className="space-y-8 pb-6">
